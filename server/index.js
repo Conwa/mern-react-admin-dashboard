@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
+import mongoose from "mongoose";
 import morgan from "morgan";
 import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
@@ -11,7 +12,7 @@ import salesRoutes from "./routes/sales.js";
 
 /* CONFIGURATION */
 dotenv.config();
-const app = express;
+const app = express();
 app.use(express.json());
 
 app.use(helmet());
@@ -27,3 +28,19 @@ app.use("/client", clientRoutes);
 app.use("/general", generalRoutes);
 app.use("/management", managementRoutes);
 app.use("/sales", salesRoutes);
+
+/*MONGOOSE SETUP*/
+
+// eslint-disable-next-line no-undef
+const PORT = process.env.PORT || 9000;
+
+mongoose
+  // eslint-disable-next-line no-undef
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server running on Port ${PORT}`));
+  })
+  .catch((error) => console.log(error));
