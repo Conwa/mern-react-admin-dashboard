@@ -1,5 +1,6 @@
-/* eslint-disable no-unused-vars */
 import { useSelector } from "react-redux";
+
+// console.log(React);
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
